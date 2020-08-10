@@ -1,49 +1,46 @@
 // Karma configuration
 // Generated on Fri Aug 09 2013 14:14:35 GMT-0500 (CDT)
 
-module.exports = function(config) {
+module.exports = function (config) {
   var configuration = {
 
     // base path, that will be used to resolve files and exclude
     basePath: '',
 
-    frameworks: ["jasmine"],
+    frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
     files: [
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular.js',
-      'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.3/angular-mocks.js',
-      'http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js',
+      'https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.js',
+      'https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-mocks.js',
       'src/*.js',
       'test/*.js'
     ],
 
     plugins: [
-      "karma-phantomjs-launcher",
-      "karma-jasmine",
-      "karma-coverage"
+      'karma-phantomjs-launcher',
+      'karma-jasmine',
+      'karma-coverage'
     ],
 
     preprocessors: {
-      "src/*.js": ["coverage"]
+      'src/*.js': ['coverage']
     },
 
     // optionally, configure the reporter
     coverageReporter: {
-      dir : "coverage/",
+      dir: 'coverage/',
       reporters: [
-        {type: "lcov", subdir: "lcov"}
+        {type: 'lcov', subdir: 'lcov'}
       ]
     },
 
     // test results reporter to use
     // possible values: "dots", "progress", "junit"
-    reporters: ["dots", "coverage"],
+    reporters: ['dots', 'coverage'],
 
     // list of files to exclude
-    exclude: [
-
-    ],
+    exclude: [],
 
     // web server port
     port: 9876,

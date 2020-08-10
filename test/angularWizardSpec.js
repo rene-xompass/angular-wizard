@@ -1,7 +1,7 @@
 describe( 'AngularWizard', function() {
     var $compile, $q, $rootScope, $timeout, WizardHandler;
 
-    beforeEach(module('mgo-angular-wizard'));
+    beforeEach(module('xompass-angular-wizard'));
 
 
     beforeEach(inject(function(_$compile_, _$q_, _$rootScope_, _$timeout_, _WizardHandler_) {

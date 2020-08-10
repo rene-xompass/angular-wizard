@@ -1,27 +1,11 @@
 # Angular-Wizard
 
-[![Build Status](https://travis-ci.org/angular-wizard/angular-wizard.svg?branch=master)](https://travis-ci.org/angular-wizard/angular-wizard)  [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8a488d7e632d4d1ea973bfcd25ea15a0)](https://www.codacy.com/app/jc_2/angular-wizard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=angular-wizard/angular-wizard&amp;utm_campaign=Badge_Grade)    [![Coverage Status](https://coveralls.io/repos/github/angular-wizard/angular-wizard/badge.svg?branch=master)](https://coveralls.io/github/angular-wizard/angular-wizard?branch=master)  [![npm version](https://badge.fury.io/js/angular-wizard.svg)](https://badge.fury.io/js/angular-wizard)  [![PayPal donate button](http://img.shields.io/paypal/donate.png?color=yellow)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=martin%40gon%2eto&lc=US&item_name=Martin%20Gontovnikas&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted "Donate once-off to this project using PayPal")
-[![Donate on Gratipay](http://img.shields.io/gratipay/mgonto.svg)](https://gratipay.com/mgonto/)
-
 Angular-wizard is a component that will make it easy for you to create wizards in your app. You can check a running example of the wizard [by clicking here](http://angular-wizard.github.io/angular-wizard/)
 
 # How do I add this to my project?
 You can download this by:
 
-* Using bower and running `bower install angular-wizard`
-* Using npm and running `npm install angular-wizard`
-* Downloading it manually by getting the files from the dist folder
-* Using JsDelivr CDN files:
-
-````html
-<!-- Use LATEST folder to always get the latest version-->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/angular-wizard@latest/dist/angular-wizard.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/angular-wizard@latest/dist/angular-wizard.min.css">
-
-<!-- Or use TAG number for specific version -->
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/angular-wizard@1.1.1/dist/angular-wizard.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/angular-wizard@1.1.1/dist/angular-wizard.min.css">
-````
+* Using npm and running `npm install xompass-angular-wizard`
 
 The dist folder contains the following files:
 
@@ -41,7 +25,7 @@ The first thing we need to do is add a dependency to angular-wizard module which
 We can do this simply by doing: 
 
 ````js
-angular.module('your-app', ['mgo-angular-wizard']);
+angular.module('your-app', ['xompass-angular-wizard']);
 ````
 
 Now, in some HTML for a controller, you can just add a wizard as follows:

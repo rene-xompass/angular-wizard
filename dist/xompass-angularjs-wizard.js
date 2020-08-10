@@ -1,3 +1,43 @@
+/**
+ * Easy to use Wizard library for Angular JS
+ * @version v1.2.0 - 2020-08-09 * @link https://github.com/rene-xompass/angular-wizard
+ * @author Martin Gontovnikas <martin@gon.to>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+angular.module('xompass-angular-wizard', ['templates-xompass-angular-wizard']);
+
+angular.module('xompass-angular-wizard').directive('wzStep', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    transclude: true,
+    scope: {
+      wzTitle: '@',
+      wzHeadingTitle: '@',
+      canenter: '=',
+      canexit: '=',
+      disabled: '@?wzDisabled',
+      description: '@',
+      wzData: '=',
+      wzOrder: '@?'
+    },
+    require: '^wizard',
+    templateUrl: function (element, attributes) {
+      return attributes.template || 'step.html';
+    },
+    link: function ($scope, $element, $attrs, wizard) {
+      $attrs.$observe('wzTitle', function (value) {
+        $scope.title = $scope.wzTitle;
+      });
+      $scope.title = $scope.wzTitle;
+      wizard.addStep($scope);
+      $scope.$on('$destroy', function () {
+        wizard.removeStep($scope);
+      });
+    }
+  };
+});
+
 //wizard directive
 angular.module('xompass-angular-wizard').directive('wizard', function () {
   return {
@@ -392,3 +432,76 @@ angular.module('xompass-angular-wizard').directive('wizard', function () {
     }]
   };
 });
+
+function wizardButtonDirective(action) {
+  angular.module('xompass-angular-wizard')
+    .directive(action, function () {
+      return {
+        restrict: 'A',
+        replace: false,
+        require: '^wizard',
+        link: function ($scope, $element, $attrs, wizard) {
+
+          $element.on('click', function (e) {
+            e.preventDefault();
+            $scope.$apply(function () {
+              $scope.$eval($attrs[action]);
+              wizard[action.replace('wz', '').toLowerCase()]();
+            });
+          });
+        }
+      };
+    });
+}
+
+wizardButtonDirective('wzNext');
+wizardButtonDirective('wzPrevious');
+wizardButtonDirective('wzFinish');
+wizardButtonDirective('wzCancel');
+wizardButtonDirective('wzReset');
+
+angular.module('xompass-angular-wizard').factory('WizardHandler', function () {
+  const service = {};
+  const wizards = {};
+
+  service.defaultName = 'defaultWizard';
+
+  service.addWizard = function (name, wizard) {
+    wizards[name] = wizard;
+  };
+
+  service.removeWizard = function (name) {
+    delete wizards[name];
+  };
+
+  service.wizard = function (name) {
+    var nameToUse = name || service.defaultName;
+    return wizards[nameToUse];
+  };
+
+  return service;
+});
+
+angular.module('templates-xompass-angular-wizard', ['step.html', 'wizard.html']);
+
+angular.module("step.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("step.html",
+    "<section ng-show=\"selected\" ng-class=\"{current: selected, done: completed}\" class=\"step\" ng-transclude>\n" +
+    "</section>");
+}]);
+
+angular.module("wizard.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("wizard.html",
+    "<div>\n" +
+    "    <h2 ng-show=\"selectedStep.wzHeadingTitle != ''\">{{ selectedStep.wzHeadingTitle }}</h2>\n" +
+    "\n" +
+    "    <div class=\"steps\" ng-if=\"indicatorsPosition === 'bottom'\" ng-transclude></div>\n" +
+    "    <ul class=\"steps-indicator steps-{{getEnabledSteps().length}}\" ng-if=\"!hideIndicators\">\n" +
+    "      <li ng-class=\"{default: !step.completed && !step.selected, current: step.selected && !step.completed, done: step.completed && !step.selected, editing: step.selected && step.completed}\" ng-repeat=\"step in getEnabledSteps()\">\n" +
+    "        <a ng-click=\"goTo(step)\">{{step.title || step.wzTitle}}</a>\n" +
+    "      </li>\n" +
+    "    </ul>\n" +
+    "    <div class=\"steps\" ng-if=\"indicatorsPosition === 'top'\" ng-transclude></div>\n" +
+    "</div>\n" +
+    "");
+}]);

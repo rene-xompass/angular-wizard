@@ -1,1 +1,1 @@
-angular.module('mgo-angular-wizard', ['templates-angularwizard']);
+angular.module('xompass-angular-wizard', ['templates-xompass-angular-wizard']);

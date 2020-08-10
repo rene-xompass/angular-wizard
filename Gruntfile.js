@@ -1,25 +1,25 @@
 'use strict';
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     meta: {
       banner: [
-                '/**',
-                ' * <%= pkg.description %>',
-                ' * @version v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>' +
-                ' * @link <%= pkg.homepage %>',
-                ' * @author <%= pkg.author %>',
-                ' * @license MIT License, http://www.opensource.org/licenses/MIT',
-                ' */\n'
-              ].join('\n')
+        '/**',
+        ' * <%= pkg.description %>',
+        ' * @version v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>' +
+        ' * @link <%= pkg.homepage %>',
+        ' * @author <%= pkg.author %>',
+        ' * @license MIT License, http://www.opensource.org/licenses/MIT',
+        ' */\n'
+      ].join('\n')
     },
     dirs: {
       dest: 'dist'
     },
-    clean: [ 
+    clean: [
       '<%= dirs.dest %>'
     ],
     concat: {
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
     },
     recess: {
       build: {
-        src: [ 'src/angular-wizard.less' ],
+        src: ['src/angular-wizard.less'],
         dest: '<%= dirs.dest %>/<%= pkg.name %>.css',
         options: {
           compile: true,
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
         }
       },
       compile: {
-        src: [ 'src/angular-wizard.less' ],
+        src: ['src/angular-wizard.less'],
         dest: '<%= dirs.dest %>/<%= pkg.name %>.min.css',
         options: {
           compile: true,
@@ -57,11 +57,11 @@ module.exports = function(grunt) {
     },
     less: {
       build: {
-         options: {
-             paths: ["<%= dirs.dest %>"],
-             cleancss: true,
-         },
-         files: {"<%= dirs.dest %>/<%= pkg.name %>.css": "src/angular-wizard.less"}
+        options: {
+          paths: ['<%= dirs.dest %>'],
+          cleancss: true
+        },
+        files: {'<%= dirs.dest %>/<%= pkg.name %>.css': 'src/angular-wizard.less'}
       }
     },
     cssmin: {
@@ -78,26 +78,22 @@ module.exports = function(grunt) {
     copy: {
       less_files: {
         files: [
-          { 
-            src: [ 'src/angular-wizard.less' ],
+          {
+            src: ['src/angular-wizard.less'],
             dest: '<%= dirs.dest %>',
             cwd: '.',
             expand: true,
             flatten: true
           }
-       ]   
+        ]
       }
     },
-    bowerInstall: {
-        install: {
-        }
-    },
     html2js: {
-      angularwizard: {
+      'xompass-angular-wizard': {
         options: {
           base: 'src'
         },
-        src: [ 'src/*.html' ],
+        src: ['src/*.html'],
         dest: 'src/<%= pkg.name %>.tpls.js'
       }
     },
@@ -134,8 +130,6 @@ module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-bower-task');
-  grunt.renameTask("bower", "bowerInstall");
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-contrib-less');
@@ -152,38 +146,41 @@ module.exports = function(grunt) {
   // Build task.
   grunt.registerTask('build', [
     'clean',
-    'bowerInstall', 
     'copy',
     'less',
     'cssmin',
     'html2js',
-    'concat', 
-    'uglify', 
-    'karma:build']);
+    'concat',
+    'uglify']);
 
   grunt.registerTask('test', ['build']);
-  
+
   grunt.registerTask('travis', ['build']);
 
   // Provides the "bump" task.
-  grunt.registerTask('bump', 'Increment version number', function() {
+  grunt.registerTask('bump', 'Increment version number', function () {
     var versionType = grunt.option('type');
+
     function bumpVersion(version, versionType) {
       var type = {patch: 2, minor: 1, major: 0},
-          parts = version.split('.'),
-          idx = type[versionType || 'patch'];
+        parts = version.split('.'),
+        idx = type[versionType || 'patch'];
       parts[idx] = parseInt(parts[idx], 10) + 1;
-      while(++idx < parts.length) { parts[idx] = 0; }
+      while (++idx < parts.length) {
+        parts[idx] = 0;
+      }
       return parts.join('.');
     }
+
     var version;
+
     function updateFile(file) {
       var json = grunt.file.readJSON(file);
       version = json.version = bumpVersion(json.version, versionType || 'patch');
       grunt.file.write(file, JSON.stringify(json, null, '  '));
     }
+
     updateFile('package.json');
-    updateFile('bower.json');
     grunt.log.ok('Version bumped to ' + version);
   });
 
